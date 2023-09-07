@@ -40,7 +40,7 @@ const registerUser=async(req,res)=>{
             email: newUser.email,
             userName: newUser.userName,
         };
-        res.status(201).json({user:sanitizedUser,token:token});
+        res.status(201).json({user:sanitizedUser,token:token,message:"Register Successfull"});
     }
     catch(err){
         console.log(err);
@@ -63,7 +63,7 @@ const loginUser=async(req,res)=>{
             userName: existingUser.userName,
               };
            const token=jwt.sign({email:existingUser.email,id:existingUser._id},secret)
-           res.status(200).json({user:sanitizedUser,token:token});
+           res.status(200).json({user:sanitizedUser,token:token,message:"Logged in Successfull"});
         }
         else{
             res.status(404).json({message:"user not found"})
