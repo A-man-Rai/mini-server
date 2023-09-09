@@ -57,7 +57,7 @@ const loginUser=async(req,res)=>{
            if(!matchPassword){
              return res.status(400).json({message:"invalid credentials"});
            }
-           const sanitizedUser = {
+            const sanitizedUser = {
             id: existingUser._id,
             email: existingUser.email,
             userName: existingUser.userName,
@@ -66,7 +66,7 @@ const loginUser=async(req,res)=>{
            res.status(200).json({user:sanitizedUser,token:token,message:"Logged in Successfull"});
         }
         else{
-            res.status(404).json({message:"user not found"})
+          return  res.status(404).json({message:"Enter Valid Email/Password"})
         }
     }
     catch(err){
