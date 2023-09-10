@@ -8,10 +8,10 @@ router.get("/",fetchStartingData);
 router.post("/register",registerUser);
 router.post("/login",loginUser);
 
-router.get("/login/get",auth,getMapDatas);
-router.post("/login/post",auth,postMapData);
-router.put("/login/update/:reportId",auth,updateMapData);
-router.delete("/login/delete/:reportId",auth,deleteOneMapData);
-router.delete("/login/delete",auth,deleteAllMapData);
+router.get("/login/reports",auth,getMapDatas);
+router.post("/login/report",auth,postMapData);
+router.patch("/login/report/:reportId",auth,updateMapData);
+router.delete("/login/report/:reportId",auth,deleteOneMapData);
+//router.delete("/login/delete",auth,deleteAllMapData);
 
 export default router;

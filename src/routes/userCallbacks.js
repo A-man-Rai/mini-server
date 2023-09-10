@@ -11,7 +11,7 @@ const postMapData=async(req,res)=>{
     });
    try{
       await report.save();
-      res.status(201).json(report); 
+      res.status(201).json({message:"SAVED"}); 
    } catch(err){
       console.log(err.message);
       res.status(500).json({message:"SOMETHING WENT WRONG"});
@@ -56,7 +56,7 @@ const deleteOneMapData=async(req,res)=>{
    const{title,description,latitude,longitude}=req.body;
    try{
       const deletedReport=await Report.findByIdAndDelete(id);
-      res.status(200).json(deletedReport);
+      res.status(200).json({message:"successfully deleted",data:deletedReport});
     }
     catch(err){
        console.log(err.message);
