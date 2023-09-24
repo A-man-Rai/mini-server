@@ -20,6 +20,7 @@ app.use("/login/post",router);
 app.use("/login/update/:id",router);
 app.use("/login/delete/:id",router);
 app.use("/login/delete",router);
+app.use("/admin/login",router);
 
 const username=process.env.DB_USERNAME;
 const password=process.env.DB_PASSWORD;

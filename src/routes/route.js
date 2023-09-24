@@ -2,6 +2,8 @@ import express from "express";
 import { auth } from "../middleware/auth.js";
 import { fetchStartingData,registerUser,loginUser} from "./callbacks.js";
 import {getMapDatas,postMapData,updateMapData,deleteOneMapData,deleteAllMapData} from "./userCallbacks.js"
+import { loginAdmin } from "./adminSignIn.js";
+import { getAllUsers ,getAllReports} from "./adminCallbacks.js";
 const router = express.Router();
 
 router.get("/",fetchStartingData);
@@ -13,5 +15,10 @@ router.post("/login/report",auth,postMapData);
 router.patch("/login/report/:reportId",auth,updateMapData);
 router.delete("/login/report/:reportId",auth,deleteOneMapData);
 //router.delete("/login/delete",auth,deleteAllMapData);
+
+router.post("/admin/login",loginAdmin);
+router.get("/admin/users",auth,getAllUsers);
+router.get("/admin/reports",auth,getAllReports);
+
 
 export default router;

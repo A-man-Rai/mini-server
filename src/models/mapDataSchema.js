@@ -6,6 +6,7 @@ const mapDataScheam=new mongoose.Schema({
         unique:true,
         required:true
     },
+    description:String,
     latitude:String,
     longtitude:String
 })
