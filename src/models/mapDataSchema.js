@@ -1,14 +1,10 @@
 import mongoose  from "mongoose";
 
 const mapDataScheam=new mongoose.Schema({
-    id:{
-        type:String,
-        unique:true,
-        required:true
-    },
+    title:String,
     description:String,
     latitude:String,
-    longtitude:String
+    longitude:String
 })
 
 const MapData= mongoose.model("mapData",mapDataScheam)

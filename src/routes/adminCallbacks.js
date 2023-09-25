@@ -25,4 +25,54 @@ const getAllReports=async(req,res)=>{
     }
 }
 
-export{getAllUsers,getAllReports}
+const postMapAdminData = async(req, res) => {
+    const{title,description,latitude,longitude}=req.body;
+    const data =new MapData({
+       title:title,
+       description:description,
+       longitude:longitude,
+       latitude:latitude
+     });
+    try{
+       await data.save();
+       res.status(201).json({message:"SAVED"}); 
+    } catch(err){
+       console.log(err.message);
+       res.status(500).json({message:"SOMETHING WENT WRONG"});
+    }
+
+}
+
+const deleteOneAdminMapData=async(req,res)=>{
+    const id=req.params.id;
+    try{
+       const deletedReport=await MapData.findByIdAndDelete(id);
+       res.status(200).json({message:"successfully deleted",data:deletedReport});
+     }
+     catch(err){
+        console.log(err.message);
+        res.status(500).json({message:"SOMETHING WENT WRONG"});
+     }
+ }
+
+ const updateAdminMapData=async(req,res)=>{
+    const id=req.params.id;
+    const{title,description,latitude,longitude}=req.body;
+    const report =({
+       title:title,
+       description:description,
+       longitude:longitude,
+       latitude:latitude
+     });
+    try{
+      const updatedReport=await MapData.findByIdAndUpdate(id,{ $set: report },{new:true});
+      res.status(200).json(updatedReport);
+    }
+    catch(err){
+       console.log(err.message);
+       res.status(500).json({message:"SOMETHING WENT WRONG"});
+    }
+ 
+ }
+
+export{getAllUsers,getAllReports,postMapAdminData,deleteOneAdminMapData,updateAdminMapData}

@@ -53,7 +53,6 @@ const updateMapData=async(req,res)=>{
 
 const deleteOneMapData=async(req,res)=>{
    const id=req.params.reportId;
-   const{title,description,latitude,longitude}=req.body;
    try{
       const deletedReport=await Report.findByIdAndDelete(id);
       res.status(200).json({message:"successfully deleted",data:deletedReport});
