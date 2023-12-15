@@ -2,7 +2,7 @@ import MapData from "../models/mapDataSchema.js"
 import User from "../models/userSchema.js";
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
-
+import { getRandomNumber } from './randomNumber.js';
 
 const saltRounds = parseInt(process.env.BCRYPT_SALT_ROUNDS,10);
 const secret=process.env.JWT_SECRET;
@@ -11,7 +11,7 @@ const secret=process.env.JWT_SECRET;
 const fetchStartingData = async(req, res) => {
         try {
             const docs = await MapData.find({}).exec();
-            console.log(docs);
+        console.log(docs);
             res.json(docs);
         } catch (err) {
             console.error("Error occurred:", err);
@@ -20,14 +20,30 @@ const fetchStartingData = async(req, res) => {
     
 }
 
+const getOneMapData=async(req,res)=>{
+    const id=req.params.id;
+    try{
+       const getOne=await MapData.findById(id).exec();
+       res.status(200).json({message:"found",data:getOne});
+     }
+     catch(err){
+        console.log(err.message);
+        res.status(500).json({message:"SOMETHING WENT WRONG"});
+     }
+ }
+
 
 const registerUser=async(req,res)=>{
-    const{username,email,password}=req.body;
+    const{username,email,password,otp}=req.body;
+     const  OTP=getRandomNumber();
+
+     console.log(OTP);
+    if(OTP==otp){ 
     try{
         const existingUser=await User.findOne({email:email});
         if(existingUser){
-          return res.status(400).json({message:"user already exist"});
-        }
+          return res.status(400).json({message:"Email Is Already Registered"});
+      }
         const hashPassword= await bcrypt.hash(password,saltRounds);
         const newUser= await User.create({
             email:email,
@@ -40,12 +56,15 @@ const registerUser=async(req,res)=>{
             email: newUser.email,
             userName: newUser.userName,
         };
-        res.status(201).json({user:sanitizedUser,token:token,message:"Register Successfull"});
+        res.status(201).json({user:sanitizedUser,token:token,message:"Registered Successfully"});
     }
     catch(err){
         console.log(err);
         res.status(500).json({message:"Something Went Wrong"})
     }
+}else{
+    return res.status(400).json({message:"OTP IS INCORRECT"});
+}
 }
 
 const loginUser=async(req,res)=>{
@@ -55,7 +74,7 @@ const loginUser=async(req,res)=>{
         if(existingUser){
             const matchPassword=await bcrypt.compare(password,existingUser.password);
            if(!matchPassword){
-             return res.status(400).json({message:"invalid credentials"});
+             return res.status(400).json({message:"Invalid Username or Password"});
            }
             const sanitizedUser = {
             id: existingUser._id,
@@ -75,4 +94,4 @@ const loginUser=async(req,res)=>{
     }
 }
 
-export {fetchStartingData,registerUser,loginUser};
+export {fetchStartingData,registerUser,loginUser,getOneMapData};

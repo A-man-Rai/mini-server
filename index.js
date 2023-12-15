@@ -8,13 +8,19 @@ import bodyParser from "body-parser";
 const app=express();
 
 
-app.use(cors());
-app.use(bodyParser.json({extended:true}));
-app.use(bodyParser.urlencoded({extended:true}))
+
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true,
+}));
+
+app.use(bodyParser.json({ limit: '3mb' }));
+app.use(bodyParser.urlencoded({ limit: '3mb', extended: true }));
 
 app.use("/",router);
 app.use("/register",router);
 app.use("/login",router);
+app.use("/getotp",router);
 app.use("/login/get",router);
 app.use("/login/post",router);
 app.use("/login/update/:id",router);
